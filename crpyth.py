@@ -1,6 +1,54 @@
 #/usr/bin/env python
 import math
 
+def color(string, code=1,background=False):
+	"""colore une chaine de texte:
+	0: gris, 1:rouge, 2:vert, 3:orange, 4:bleu, 5:violet, 6:bleu-ciel, 7:blanc """
+	return "\033["+{False:"3" ,True:"4"}[background]+str(int(code)%10)+"m"+str(string)+"\033[m"
+
+def question(Q, propositions, mode=False):
+	"""pose la question Q (1er argument) avec les proposition (liste et 2eme argument), retourne le numereau de la reponce voulue"""
+	t=0
+	while t==0:
+		print Q
+		for p in propositions:
+			t+=1
+			print color(str(t), t), " -  ", p[0]
+		t=1
+		answer=raw_input('entrez une valeur numerique entiere \n')
+		try: answer=int(answer)
+		except: answer = -9
+		if answer>=len(propositions) or answer<0:
+			t=0
+			print "Valeur en entree incorrecte"
+	return propositions[answer-1][1]
+
+def cryptloop():
+	keydefine()
+	crypt()
+	while question( "Quelle action voulez vous faire?", [ \
+				["changer la clef", keydefine] , \
+				["chiffrer un autre message",crypt], \
+				["quitter", quitter]])():
+		pass
+	return true
+
+def uncryptloop():
+	return true
+
+def use_algo(texte, key)
+
+def quitter():
+	return false
+###### Fin-Fonctions ######
+
+###### MainLoop ######
+while question( "Quelle action voulez vous faire?", [ \
+			["chiffrer un message", cryptloop] , \
+			["dechiffrer un message",uncryptloop], \
+			["quitter", quitter]])():
+	pass
+
 message=raw_input('message?')
 k=int(raw_input('clef'))
 mk=""
