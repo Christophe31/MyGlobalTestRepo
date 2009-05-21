@@ -3,10 +3,80 @@ import math
 from random import random
 from random import shuffle
 
-alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=","v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3","iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4"]
-randkey=""
-message=""
-key=""
+class crpyt:
+	def __init__(self):
+		self.alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=", \
+					 "v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3", \
+					 "iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4"]
+		self.randkey=""
+		self.message=""
+		self.key=""
+		while question( "Quelle action voulez vous faire?", [ \
+					["chiffrer un message", self.cryptloop] , \
+					["dechiffrer un message",self.uncryptloop], \
+					["quitter", quitter]])():
+			pass
+
+
+	def randkeygen(self):
+		tmp=list(self.alphabets[0])
+		shuffle(tmp)
+		while self.alphabets[1].find(tmp[0])<5:
+			shuffle(tmp)
+		self.randkey="".join(tmp[0:self.alphabets[1].find(tmp[0])])
+
+	def randkeyfind(self):
+		self.randkey="".join(self.message[0:self.alphabets[1].find(tmp[0])])
+
+	def keydefine(self):
+		self.key=raw_input("quelle clef?")
+		while len([i for i in self.key if i not in self.alphabets[0]])>0:
+			self.key=raw_input("clef invalide: quelle clef?")
+
+	def crypt(self):
+		self.message=raw_input("quel message?")
+		while len([i for i in self.key if i not in self.alphabets[0]])>0:
+			self.key=raw_input("message invalide: quel message?")
+		self.randkeygen()
+		crypted=[l for l in self.randkey]
+		for i,l in enumerate(self.message):
+			crypted.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets))%len(self.alphabets[0])])
+		print "".join(crypted)
+
+	def uncrypt(self):
+		self.message=raw_input("quel message?")
+		while len([i for i in self.key if i not in self.alphabets[0]])>0:
+			self.key=raw_input("message invalide: quel message?")
+		self.randkeyfind()
+		self.message=self.message[len(self.randkey)-1:]
+		uncrypted=[]
+		for i,l in enumerate(self.message):
+			crypted.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets))%len(self.alphabets[0])])
+		print "".join(crypted)
+
+	def decal(self, letm,letk, letr, alph=0,mod=False):
+		if mod:
+			return self.alphabets[alph].find(letm)-self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
+		return self.alphabets[alph].find(letm)+self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
+	def cryptloop(self):
+		self.keydefine()
+		self.crypt()
+		while question( "Quelle action voulez vous faire?", [ \
+					["changer la clef", self.keydefine] , \
+					["chiffrer un autre message",self.crypt], \
+					["quitter", quitter]])():
+			pass
+		return True
+	def uncryptloop(self):
+		self.keydefine()
+		self.uncrypt()
+		while question( "Quelle action voulez vous faire?", [ \
+					["changer la clef", self.keydefine] , \
+					["chiffrer un autre message",self.uncrypt], \
+					["quitter", quitter]])():
+			pass
+		return True
+
 
 def color(string, code=1,background=False):
 	"""colore une chaine de texte:
@@ -30,50 +100,11 @@ def question(Q, propositions, mode=False):
 			print "Valeur en entree incorrecte"
 	return propositions[answer-1][1]
 
-def randkeygen():
-	tmpa=list(alphabets[1])
-	shuffle(tmp)
-	while alphabets[0].find(tmp[0])<5:
-		pass
-	randkey="".join(tmp[0:alphabets[0].find(tmp[0])])
-
-def randkeyfind():
-	randkey="".join(message[0:alphabets[0].find(tmp[0])])
-
-def keydefine():
-	key=raw_input("quelle clef?")
-	while len([i for i in key if i not in alphabets[0]])>0:
-		key=raw_input("quelle clef?")
-
-def cryptloop():
-	keydefine()
-	crypt()
-	while question( "Quelle action voulez vous faire?", [ \
-				["changer la clef", keydefine] , \
-				["chiffrer un autre message",crypt], \
-				["quitter", quitter]])():
-		pass
-	return true
-
-def uncryptloop():
-	return true
-
-def use_algo(texte, key, randkey):
-	return
-
 
 def quitter():
-	return false
+	return False
 ###### Fin-Fonctions ######
 
 ###### MainLoop ######
-while question( "Quelle action voulez vous faire?", [ \
-			["chiffrer un message", cryptloop] , \
-			["dechiffrer un message",uncryptloop], \
-			["quitter", quitter]])():
-	pass
 
-
-for i in [chr(ord(i)+k%256) for i in message]:
-    mk+=i
-print mk
+crpyt()
