@@ -1,5 +1,11 @@
 #/usr/bin/env python
 import math
+from random import random
+
+alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=",'v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3','iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4']
+randkey=""
+message=""
+key=""
 
 def color(string, code=1,background=False):
 	"""colore une chaine de texte:
@@ -22,7 +28,10 @@ def question(Q, propositions, mode=False):
 			t=0
 			print "Valeur en entree incorrecte"
 	return propositions[answer-1][1]
-
+def keydefine():
+	key=raw_input("quelle clef?")
+	while len([i for i in key if i not in alphabets[0]])>0:
+		key=raw_input("quelle clef?")
 def cryptloop():
 	keydefine()
 	crypt()
@@ -36,7 +45,9 @@ def cryptloop():
 def uncryptloop():
 	return true
 
-def use_algo(texte, key)
+def use_algo(texte, key, randkey):
+	return
+
 
 def quitter():
 	return false
