@@ -1,4 +1,6 @@
-#/usr/bin/env python
+﻿#! /usr/bin/env python
+# -*- coding:utf-8 -*-
+
 import math
 from random import random
 from random import shuffle
@@ -11,71 +13,52 @@ class crpyt:
 		self.randkey=""
 		self.message=""
 		self.key=""
-		while question( "Quelle action voulez vous faire?", [ \
-					["chiffrer un message", self.cryptloop] , \
-					["dechiffrer un message",self.uncryptloop], \
-					["quitter", quitter]])():
-			pass
+		a=-1
+		keepkey=False
+		while a!=4:
+			a=question( "Quelle action voulez vous faire?", [ \
+					"Chiffrer un message" , \
+					"Dechiffrer un message", \
+					"Changer la clef", \
+					"Quitter"])
+			if a==1:
+				self.crypt(False,keepkey)
+				keepkey=True
+			if a==2:
+				self.crypt(True,keepkey)
+				keepkey=True
+			if a==3:
+				keepkey=False
 
-
-	def randkeygen(self):
-		tmp=list(self.alphabets[0])
-		shuffle(tmp)
-		while self.alphabets[1].find(tmp[0])<5:
+	def randkeym(self, find=False):
+		if find:
+			self.randkey="".join(self.message[0:self.alphabets[1].find(self.message[0])])
+		else:
+			tmp=list(self.alphabets[0])
 			shuffle(tmp)
-		self.randkey="".join(tmp[0:self.alphabets[1].find(tmp[0])])
+			while self.alphabets[1].find(tmp[0])<5:
+				shuffle(tmp)
+			self.randkey="".join(tmp[0:self.alphabets[1].find(tmp[0])])
 
-	def randkeyfind(self):
-		self.randkey="".join(self.message[0:self.alphabets[1].find(tmp[0])])
-
-	def keydefine(self):
-		self.key=raw_input("quelle clef?")
-		while len([i for i in self.key if i not in self.alphabets[0]])>0:
-			self.key=raw_input("clef invalide: quelle clef?")
-
-	def crypt(self):
+	def crypt(self, uncrypt=False ,keepkey=False):
+		if not keepkey:
+			self.key=raw_input("quelle clef?")
+			while len([i for i in self.key if i not in self.alphabets[0]])>0:
+				self.key=raw_input("clef invalide: quelle clef?")
 		self.message=raw_input("quel message?")
 		while len([i for i in self.key if i not in self.alphabets[0]])>0:
-			self.key=raw_input("message invalide: quel message?")
-		self.randkeygen()
-		crypted=[l for l in self.randkey]
+			self.message=raw_input("message invalide: quel message?")
+		self.randkeym(uncrypt)
+		result=[]
 		for i,l in enumerate(self.message):
-			crypted.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets))%len(self.alphabets[0])])
-		print "".join(crypted)
+			result.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets),uncrypt)%len(self.alphabets[0])])
+		print {False:self.randkey+"".join(result) ,True:"".join(result)}[uncrypt]
 
-	def uncrypt(self):
-		self.message=raw_input("quel message?")
-		while len([i for i in self.key if i not in self.alphabets[0]])>0:
-			self.key=raw_input("message invalide: quel message?")
-		self.randkeyfind()
-		self.message=self.message[len(self.randkey)-1:]
-		uncrypted=[]
-		for i,l in enumerate(self.message):
-			crypted.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets))%len(self.alphabets[0])])
-		print "".join(crypted)
-
-	def decal(self, letm,letk, letr, alph=0,mod=False):
-		if mod:
-			return self.alphabets[alph].find(letm)-self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
-		return self.alphabets[alph].find(letm)+self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
-	def cryptloop(self):
-		self.keydefine()
-		self.crypt()
-		while question( "Quelle action voulez vous faire?", [ \
-					["changer la clef", self.keydefine] , \
-					["chiffrer un autre message",self.crypt], \
-					["quitter", quitter]])():
-			pass
-		return True
-	def uncryptloop(self):
-		self.keydefine()
-		self.uncrypt()
-		while question( "Quelle action voulez vous faire?", [ \
-					["changer la clef", self.keydefine] , \
-					["chiffrer un autre message",self.uncrypt], \
-					["quitter", quitter]])():
-			pass
-		return True
+	def decal(self, letm,letk, letr, alph=0,uncrypt=False):
+		val=self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
+		if uncrypt:
+			return self.alphabets[alph].find(letm)-val
+		return self.alphabets[alph].find(letm)+val
 
 
 def color(string, code=1,background=False):
@@ -90,7 +73,7 @@ def question(Q, propositions, mode=False):
 		print Q
 		for p in propositions:
 			t+=1
-			print color(str(t), t), " -  ", p[0]
+			print color(str(t), t), " -  ", p
 		t=1
 		answer=raw_input('entrez une valeur numerique entiere \n')
 		try: answer=int(answer)
@@ -98,13 +81,10 @@ def question(Q, propositions, mode=False):
 		if answer>=len(propositions) or answer<0:
 			t=0
 			print "Valeur en entree incorrecte"
-	return propositions[answer-1][1]
+	return answer
 
 
 def quitter():
 	return False
-###### Fin-Fonctions ######
-
-###### MainLoop ######
 
 crpyt()
