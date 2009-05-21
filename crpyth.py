@@ -1,8 +1,9 @@
 #/usr/bin/env python
 import math
 from random import random
+from random import shuffle
 
-alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=",'v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3','iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4']
+alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=","v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3","iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4"]
 randkey=""
 message=""
 key=""
@@ -28,10 +29,22 @@ def question(Q, propositions, mode=False):
 			t=0
 			print "Valeur en entree incorrecte"
 	return propositions[answer-1][1]
+
+def randkeygen():
+	tmpa=list(alphabets[1])
+	shuffle(tmp)
+	while alphabets[0].find(tmp[0])<5:
+		pass
+	randkey="".join(tmp[0:alphabets[0].find(tmp[0])])
+
+def randkeyfind():
+	randkey="".join(message[0:alphabets[0].find(tmp[0])])
+
 def keydefine():
 	key=raw_input("quelle clef?")
 	while len([i for i in key if i not in alphabets[0]])>0:
 		key=raw_input("quelle clef?")
+
 def cryptloop():
 	keydefine()
 	crypt()
@@ -60,9 +73,7 @@ while question( "Quelle action voulez vous faire?", [ \
 			["quitter", quitter]])():
 	pass
 
-message=raw_input('message?')
-k=int(raw_input('clef'))
-mk=""
+
 for i in [chr(ord(i)+k%256) for i in message]:
     mk+=i
 print mk
