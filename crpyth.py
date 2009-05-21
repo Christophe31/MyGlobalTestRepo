@@ -23,16 +23,16 @@ class crpyt:
 					"Quitter"])
 			if a==1:
 				self.crypt(False,keepkey)
-				keepkey=True
-			if a==2:
+			elif a==2:
 				self.crypt(True,keepkey)
-				keepkey=True
+			keepkey=True
 			if a==3:
 				keepkey=False
 
 	def randkeym(self, find=False):
 		if find:
 			self.randkey="".join(self.message[0:self.alphabets[1].find(self.message[0])])
+			self.message=self.message[len(self.randkey):]
 		else:
 			tmp=list(self.alphabets[0])
 			shuffle(tmp)
@@ -46,12 +46,12 @@ class crpyt:
 			while len([i for i in self.key if i not in self.alphabets[0]])>0:
 				self.key=raw_input("clef invalide: quelle clef?")
 		self.message=raw_input("quel message?")
-		while len([i for i in self.key if i not in self.alphabets[0]])>0:
+		while len([i for i in self.message if i not in self.alphabets[0]])>0:
 			self.message=raw_input("message invalide: quel message?")
 		self.randkeym(uncrypt)
 		result=[]
 		for i,l in enumerate(self.message):
-			result.append(self.alphabets[0][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets),uncrypt)%len(self.alphabets[0])])
+			result.append(self.alphabets[i%len(self.alphabets)][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets),uncrypt)%len(self.alphabets[0])])
 		print {False:self.randkey+"".join(result) ,True:"".join(result)}[uncrypt]
 
 	def decal(self, letm,letk, letr, alph=0,uncrypt=False):
