@@ -1,5 +1,6 @@
 ﻿#! /usr/bin/env python
 # -*- coding:utf-8 -*-
+# coded with Tab = 5 spaces
 
 import math
 from random import random
@@ -14,22 +15,31 @@ class crpyt:
 		self.message=""
 		self.key=""
 		a=-1
-		keepkey=False
+		self.key=raw_input("quelle clef?")
+		while len([i for i in self.key if i not in self.alphabets[0]])>0:
+			self.key=raw_input("clef invalide: quelle clef?")
 		while a!=4:
 			a=question( "Quelle action voulez vous faire?", [ \
 					"Chiffrer un message" , \
 					"Dechiffrer un message", \
 					"Changer la clef", \
 					"Quitter"])
+			if a < 3:
+				self.message=raw_input("quel message?")
+				while len([i for i in self.message if i not in self.alphabets[0]+" "])>0:
+					self.message=raw_input("message invalide: quel message?")
+				self.message=self.message.replace(" ","_")
 			if a==1:
-				self.crypt(False,keepkey)
+				self.crypt(False)
 			elif a==2:
-				self.crypt(True,keepkey)
-			keepkey=True
-			if a==3:
-				keepkey=False
+				self.crypt(True)
+			elif a==3:
+				self.key=raw_input("quelle clef?")
+				while len([i for i in self.key if i not in self.alphabets[0]])>0:
+					self.key=raw_input("clef invalide: quelle clef?")
 
 	def randkeym(self, find=False):
+		"""génère ou trouve les clefs aléatoires"""
 		if find:
 			self.randkey="".join(self.message[0:self.alphabets[1].find(self.message[0])])
 			self.message=self.message[len(self.randkey):]
@@ -40,21 +50,30 @@ class crpyt:
 				shuffle(tmp)
 			self.randkey="".join(tmp[0:self.alphabets[1].find(tmp[0])])
 
-	def crypt(self, uncrypt=False ,keepkey=False):
-		if not keepkey:
-			self.key=raw_input("quelle clef?")
-			while len([i for i in self.key if i not in self.alphabets[0]])>0:
-				self.key=raw_input("clef invalide: quelle clef?")
-		self.message=raw_input("quel message?")
-		while len([i for i in self.message if i not in self.alphabets[0]])>0:
-			self.message=raw_input("message invalide: quel message?")
+	def crypt(self, uncrypt=False):
+		"""fonction qui chiffre et déchiffre"""
 		self.randkeym(uncrypt)
 		result=[]
 		for i,l in enumerate(self.message):
-			result.append(self.alphabets[i%len(self.alphabets)][self.decal(l,self.key[i%len(self.key)],self.randkey[i%len(self.randkey)],i%len(self.alphabets),uncrypt)%len(self.alphabets[0])])
-		print {False:self.randkey+"".join(result) ,True:"".join(result)}[uncrypt]
+			result.append									\
+			(											\
+				self.alphabets[i%len(self.alphabets)]			\
+				[										\
+					self.decal							\
+					(									\
+						l,								\
+						self.key[i%len(self.key)],			\
+						self.randkey[i%len(self.randkey)], 	\
+						i%len(self.alphabets),				\
+						uncrypt							\
+					)									\
+					%len(self.alphabets[0])					\
+				]										\
+			)
+		print {False:self.randkey+"".join(result) ,True:"".join(result).replace('_',' ')}[uncrypt]
 
-	def decal(self, letm,letk, letr, alph=0,uncrypt=False):
+	def decal(self, letm,letk, letr ,alph=0,uncrypt=False):
+		"""détermine le décalage à un index donné et retourne le nouvel index """
 		val=self.alphabets[alph].find(letk)+self.alphabets[alph].find(letr)
 		if uncrypt:
 			return self.alphabets[alph].find(letm)-val
@@ -82,7 +101,6 @@ def question(Q, propositions, mode=False):
 			t=0
 			print "Valeur en entree incorrecte"
 	return answer
-
 
 def quitter():
 	return False
