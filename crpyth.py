@@ -5,7 +5,8 @@
 import math
 from random import random
 from random import shuffle
-
+from sys import argv
+print argv
 class crpyt:
 	def __init__(self):
 		self.alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=", \
@@ -19,10 +20,10 @@ class crpyt:
 		while len([i for i in self.key if i not in self.alphabets[0]])>0:
 			self.key=raw_input("clef invalide: quelle clef?")
 		while a!=4:
-			a=question( "Quelle action voulez vous faire?", [ \
-					"Chiffrer un message" , \
-					"Dechiffrer un message", \
-					"Changer la clef", \
+			a=question( "Quelle action voulez vous faire?", [		\
+					"Chiffrer un message" ,					\
+					"Dechiffrer un message",					\
+					"Changer la clef",						\
 					"Quitter"])
 			if a < 3:
 				self.message=raw_input("quel message?")
@@ -79,14 +80,13 @@ class crpyt:
 			return self.alphabets[alph].find(letm)-val
 		return self.alphabets[alph].find(letm)+val
 
-
 def color(string, code=1,background=False):
 	"""colore une chaine de texte:
 	0: gris, 1:rouge, 2:vert, 3:orange, 4:bleu, 5:violet, 6:bleu-ciel, 7:blanc """
 	return "\033["+{False:"3" ,True:"4"}[background]+str(int(code)%10)+"m"+str(string)+"\033[m"
 
 def question(Q, propositions, mode=False):
-	"""pose la question Q (1er argument) avec les proposition (liste et 2eme argument), retourne le numereau de la reponce voulue"""
+	"""pose la question Q avec les proposition, retourne le numereau de la reponce voulue"""
 	t=0
 	while t==0:
 		print Q
