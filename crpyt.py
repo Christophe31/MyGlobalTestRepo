@@ -9,9 +9,9 @@ from sys import argv
 print argv
 class crpyt:
 	def __init__(self):
-		self.alphabets=["zaZetErRBYIUOFkvx_.+TGWCVHKJ132789hb6silmu/opLQMSgqjn,A5DPNX04cwdfy-=", \
-					 "v+XWynzIu7TGU6D5ZHbE9cagkhof=FSRiMBteAd0qC2VlOrxKjw,NsQL-4p81.mY_P/J3", \
-					 "iLU,DElSyZXBvWYP7w-_z0gj.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2m=sdab9ktHG4"]
+		self.alphabets=["zaZetErRBY)IUOFkvx>_.+T(GWCVHKJ132789hb6silmu/opLQM<Sgqjn,A5DPNX04cwdfy-=", \
+					 "v+XWynzIu7TGU6D5(ZHbE9cagkh>of=FSRiMBteAd0qC2Vl)OrxKjw,Ns<QL-4p81.mY_P/J3", \
+					 "iLU,DElSyZXBvWYP7w-_z0<g(j.rAK83q6R5fMe/QpTVxJnIch1OC+NouF2>m=sdab9k)tHG4"]
 		self.randkey=""
 		self.message=""
 		self.key=""
@@ -32,9 +32,11 @@ class crpyt:
 					self.message=raw_input("message invalide: quel message?")
 				self.message=self.message.replace(" ","_")
 			if a==1:
-				self.crypt(False)
+				self.message=self.crypt(False)[::-1]
+				print self.crypt(False)
 			elif a==2:
-				self.crypt(True)
+				self.message=self.crypt(True)[::-1]
+				print self.crypt(True)
 			elif a==3:
 				self.key=raw_input("quelle clef?")
 				while len([i for i in self.key if i not in self.alphabets[0]])>0:
@@ -74,7 +76,7 @@ class crpyt:
 					]										\
 					for i,l in enumerate(self.message)				\
 				]
-		print {False:self.randkey+"".join(result) ,True:"".join(result).replace('_',' ')}[uncrypt]
+		return {False:self.randkey+"".join(result) ,True:"".join(result).replace('_',' ')}[uncrypt]
 
 	def getCK(self, i):
 		return self.CKs[i%len(self.CKs)][i%len(self.CKs[i%len(self.CKs)])]
