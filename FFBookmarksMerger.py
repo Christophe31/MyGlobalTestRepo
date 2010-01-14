@@ -9,17 +9,30 @@ import os
 def ParseChildren(children,folder=[]):
     for child in children:
         if not "children" in child.keys():
-            merge(child,folder)
+            elementCopy(child,folder)
         else:
-            if not foldercopy(child):
+            folder.append(child["title"])
+            if not elementCopy(child):
                 ParseChildren(child)
 
-def foldercopy(folder):
+
+def elementCopy(child,folder):
+    """return true if it works, false if not"""
+    s="mainjson"
+    for dir in folder:
+        s+='["children"]'
+        tmp=[ i for i in range(len(eval(s))) if eval(s)[i]["title"]==folder[0]]
+        if not tmp:
+            eval(s).append(child)
+            return True
+    return False
 
 def merge(child, folder):
     while dir in folder:
         for element
 
+def refreshIds():
+    pass
 
 bookmarks_files=[]
 for file in os.listdir("."):
