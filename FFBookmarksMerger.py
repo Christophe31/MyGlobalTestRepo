@@ -12,8 +12,8 @@ def ParseChildren(children,folder=[]):
             elementCopy(child,folder)
         else:
             folder.append(child["title"])
-            if not elementCopy(child):
-                ParseChildren(child)
+            if not elementCopy(child,folder):
+                ParseChildren(child,folder)
 
 
 def elementCopy(child,folder):
