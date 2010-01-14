@@ -15,7 +15,6 @@ def ParseChildren(children,folder=[]):
             if not elementCopy(child,folder):
                 ParseChildren(child,folder)
 
-
 def elementCopy(child,folder):
     """return true if it works, false if not"""
     s="mainjson"
@@ -27,9 +26,6 @@ def elementCopy(child,folder):
             return True
     return False
 
-def merge(child, folder):
-    while dir in folder:
-        for element
 
 def refreshIds():
     pass
@@ -49,7 +45,6 @@ for file in bookmarks_files:
         mainjson=currentjson
         continue
     print "merging ..."
-
 
 
 print "writing file ./a.out.json"
