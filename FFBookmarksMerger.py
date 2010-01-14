@@ -13,9 +13,9 @@ def parseChildren(children,folder=[]):
         if not "children" in child.keys():
             elementCopy(child,folder)
         else:
-            folder.append(child["title"])
-            if not elementCopy(child,folder):
-                parseChildren(child,folder)
+            nfolder=folder+[child["title"]]
+            if not elementCopy(child,nfolder):
+                parseChildren(child,nfolder)
 
 def elementCopy(child,folder):
     """return true if it works, false if not"""
