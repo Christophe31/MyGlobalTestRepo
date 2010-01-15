@@ -11,7 +11,6 @@ def merge(source,target=[]):
         if not "children" in child.keys():
             addChild(child,target)
         else:
-            #ntarget=[e for e in target["children"] if e["title"]==child["title"]][0]
             if not addChild(child,target):
                 merge(child,[e for e in target["children"] if e["title"]==child["title"]][0])
 
@@ -34,7 +33,7 @@ if __name__=='__main__':
             continue
         print "merging ..."
         merge(currentjson,mainjson)
-    #refreshid
+    # Refresh ids, parentids and indexes from mainjson here
     print "writing file ./a.out.json",
     with open("./a.out.json","w") as f:
         json.dump(mainjson, f, indent=2)
