@@ -8,29 +8,21 @@ import os
 mainjson={}
 bookmarks_files=[]
 
-def parseChildren(children,folder=[]):
-    for child in children["children"]:
+def merge(source,target=[]):
+    for child in source["children"]:
         if not "children" in child.keys():
-            elementCopy(child,folder)
+            addChild(child,target)
         else:
-            nfolder=folder+[child["title"]]
-            if not elementCopy(child,nfolder):
-                parseChildren(child,nfolder)
+            #ntarget=[e for e in target["children"] if e["title"]==child["title"]][0]
+            if not addChild(child,target):
+                merge(child,[e for e in target["children"] if e["title"]==child["title"]][0])
 
-def elementCopy(child,folder):
+def addChild(child,target):
     """return true if it works, false if not"""
-    global mainjson
-    pt=mainjson
     print child["title"]
-    for dir in folder:
-        pt=pt["children"]
-        #print  dir ,folder
-        tmp=[ i for i in range(len(pt)) if pt[i]["title"]==dir]
-        if not tmp:
-            pt.append(child)
-            return True
-        else:
-            pt=pt[tmp[0]]
+    if not [i for i in target["children"] if i["title"]==child["title"]]:
+        target["children"].append(child)
+        return True
     return False
 
 for file in os.listdir("."):
@@ -46,8 +38,9 @@ for file in bookmarks_files:
         mainjson=currentjson
         continue
     print "merging ..."
-    parseChildren(currentjson)
+    merge(currentjson,mainjson)
 #refreshid
-print "writing file ./a.out.json"
+print "writing file ./a.out.json",
 with open("./a.out.json","w") as f:
     json.dump(mainjson, f, indent=2)
+print "done"
