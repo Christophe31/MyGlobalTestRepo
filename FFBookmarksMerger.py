@@ -24,7 +24,7 @@ def addChild(child,target):
     return False
 
 if __name__=='__main__':
-    for file in [json for json in os.listdir(".") if json.endswith(".json")]:
+    for file in [f for f in os.listdir(".") if f.endswith(".json")]:
         currentjson = None
         with open(file,"r") as f:
             currentjson=json.load(f)
