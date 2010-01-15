@@ -20,18 +20,17 @@ def parseChildren(children,folder=[]):
 def elementCopy(child,folder):
     """return true if it works, false if not"""
     global mainjson
-    s="mainjson"
+    pt=mainjson
+    print child["title"]
     for dir in folder:
-        s+='["children"]'
-        print s
-        here=eval(s)
-        print  dir ,folder
-        tmp=[ i for i in range(len(here)) if here[i]["title"]==dir]
+        pt=pt["children"]
+        #print  dir ,folder
+        tmp=[ i for i in range(len(pt)) if pt[i]["title"]==dir]
         if not tmp:
-            eval(s).append(child)
+            pt.append(child)
             return True
         else:
-            s+="["+str(tmp[0])+"]"
+            pt=pt[tmp[0]]
     return False
 
 for file in os.listdir("."):
