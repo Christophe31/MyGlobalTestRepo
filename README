@@ -1,0 +1,4 @@
+This git repo contain some of my python scripts...
+For now, the most usefull here merge some json bookmarks files from firefox.
+
+Launch it with python 2.6 in a directory witch contains you json to merge, a "a.out.json" file will be created.
