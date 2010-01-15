@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding:utf8 -*-
 # This script will merge all json bookmarks files from current directory
-#
 
 import json
 import os
 mainjson={}
-bookmarks_files=[]
 
 def merge(source,target=[]):
     for child in source["children"]:
@@ -25,22 +23,19 @@ def addChild(child,target):
         return True
     return False
 
-for file in os.listdir("."):
-    if file.endswith(".json"):
-        bookmarks_files.append(file)
-
-for file in bookmarks_files:
-    currentjson = None
-    with open(file,"r") as f:
-        currentjson=json.load(f)
-    print file," as been loaded"
-    if not mainjson:
-        mainjson=currentjson
-        continue
-    print "merging ..."
-    merge(currentjson,mainjson)
-#refreshid
-print "writing file ./a.out.json",
-with open("./a.out.json","w") as f:
-    json.dump(mainjson, f, indent=2)
-print "done"
+if __name__=='__main__':
+    for file in [json for json in os.listdir(".") if json.endswith(".json")]:
+        currentjson = None
+        with open(file,"r") as f:
+            currentjson=json.load(f)
+        print file," as been loaded"
+        if not mainjson:
+            mainjson=currentjson
+            continue
+        print "merging ..."
+        merge(currentjson,mainjson)
+    #refreshid
+    print "writing file ./a.out.json",
+    with open("./a.out.json","w") as f:
+        json.dump(mainjson, f, indent=2)
+    print "done"
