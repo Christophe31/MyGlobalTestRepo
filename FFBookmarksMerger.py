@@ -22,6 +22,16 @@ def addChild(child,target):
         return True
     return False
 
+def refreshIds(node, pid, nid,index):
+    node["id"]=nid
+    if nid!=1:
+        node["parent"]=pid
+        node["index"]=index
+    if "children" in node.keys():
+        for e in node["children"]:
+            nid=refreshIds(e,node["id"],nid+1,1+nid-node["id"])
+    return nid
+
 if __name__=='__main__':
     for file in [f for f in os.listdir(".") if f.endswith(".json")]:
         currentjson = None
@@ -34,6 +44,7 @@ if __name__=='__main__':
         print "merging ..."
         merge(currentjson,mainjson)
     # Refresh ids, parentids and indexes from mainjson here
+    refreshIds(mainjson,None,1,None)
     print "writing file ./a.out.json",
     with open("./a.out.json","w") as f:
         json.dump(mainjson, f, indent=2)
